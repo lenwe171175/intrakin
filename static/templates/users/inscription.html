@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned one column grid">
+	<div class = "height wide column">
+		<div class = "ui primary segment">
+			<h2 class = "ui inverted blue block header">Inscription</h2>
+			<form class = "ui form" method = "POST" action = "{% url "users.views.inscription" %}">
+				{% csrf_token %}
+				{% for i in form %}
+					{% if i.errors %}
+						<div class = "error field">
+					{% else %}
+						<div class = "field">
+					{% endif %}
+					<label>{{ i.label_tag }}</label>
+					<div class = "ui input">
+						{{ i }}
+						{% if i.field.required %}
+							<div class = "ui corner label"><i class = "icon asterisk"></i></div>
+						{% endif %}
+					</div>
+					{% if i.errors %}
+						<div class = "ui small red pointing above ui label">
+							{% for error in i.errors %}
+								{{ error|title }}
+							{% endfor %}
+						</div>
+					{% endif %}
+					</div>
+				{% endfor %}
+				<br>
+			<button class = "ui center aligned blue submit button" type = "submit" value = "Submit">Soumettre</button>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

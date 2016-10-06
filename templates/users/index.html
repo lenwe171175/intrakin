@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+	{% if gadz.is_gadz %}
+		{% include "users/index_gadz.html" %}
+	{% else %}
+		{% include "users/index_peks.html" %}
+	{% endif %}
+{% else %}
+<div class = "ui primary left floated segment">
+	<p>Veuillez vous connecter ou vous inscrire le cas échéant pour avoir plus de contenu disponible !</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "ui raised segment">
+		<h3 class = "ui inverted blue block header">Connexion</h3>
+		<form class = "ui form" action = "{% url "users.views.loginPage" %}" method = "post">
+			{% csrf_token %}
+			<div class = "two fields">
+				<div class = "field">
+					<label for = "id_user">Nom d'utilisateur</label>
+					<div class = "ui left labeled icon input">
+						<input type = "text" id = "id_user" name = "user">
+						<i class = "user icon"></i>
+					</div>
+				</div>
+				<div class = "field">
+					<label for = "id_password">Mot de passe</label>
+					<div class = "ui left labeled icon input">	
+						<input type = "password" id = "id_password" name = "password">
+						<i class = "lock icon"></i>
+					</div>
+				</div>
+			</div>
+		<button type = "submit" value = "Submit" class = "ui center blue submit button">Connexion</button>
+		</form>
+	</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned one column grid">
+	<div class = "height wide column">
+		<form class = "ui form primary segment" method="POST" action = "{% url "users.views.settings" %}">
+			<h2 class = "ui inverted blue block header">Paramètres du compte</h2>
+			{% csrf_token %}
+			{% for i in form %}
+				<div class = "field">
+					<label>{{ i.label_tag }}</label>
+					<div class = "ui input">
+						{{ i }}
+						{% if i.field.required %}
+							<div class = "ui corner label"><i class = "icon asterisk"></i></div>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+			<br>
+		<button class = "ui center blue submit button" type = "submit" value = "Submit">Enregistrer les modifications</button>
+</form>
+	</div>
+</div>
+{% endblock %}

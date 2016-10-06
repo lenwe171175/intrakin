@@ -1,0 +1,32 @@
+{% load extra_filters %}
+<nav class = "ui inverted tiered menu">
+	<a class = "item link" href = "{% url "users.views.index" %}">
+		<i class = "home icon"></i>
+		Accueil
+	</a>
+
+	{% block navbar_links %}
+	<a class = "item ui top right" href = "{% url "inscription" %}">
+		<i class = "user icon"></i>
+		Inscription
+	</a>
+	{% endblock %}
+	{% block navbar_menu %}
+	<a class = "item link" href = "{% url "users.views.loginPage" %}">
+		<i class = "sign in icon"></i>
+		Connexion
+	</a>
+	{% endblock %}
+	<a class = "item link" href = "http://confluence.rezal.fr">
+		<i class = "book icon"></i>
+		Documentation
+	</a>	
+</nav>
+{% if messages %}
+	{% for msg in messages %}
+	<div class = "ui floating message {% if msg.tags %} {{ msg.tags }} {% endif%}">
+		<i class = "close icon"></i>
+		{{ msg|safe }}
+	</div>
+	{% endfor %}
+{% endif %}
