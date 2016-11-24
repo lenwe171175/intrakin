@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'tags',
+    'kfet',	
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -151,4 +152,4 @@ STATICFILES_FINDER = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/intra/static/'
-STATICFILES_DIRS = ('/var/www/intra',)
+STATICFILES_DIRS = ('/var/www/intra/collectedStaticFiles/',)
