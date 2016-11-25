@@ -1,0 +1,19 @@
+{% load extra_filters %}
+
+<div class = "ui sub menu">
+	<div class = "menu">
+	{% if gadz.credit <= 0 %}
+		<div class = "right item">
+			<div class = "ui red label">
+			Solde = {{ gadz.credit }} €
+			</div>
+		</div>
+	{% else %}
+		<div class = "right item">
+			<div class = "ui green label">
+			Solde = {{ gadz.credit }} €
+			</div>
+		</div>
+	{% endif %}
+	</div>
+</div>

@@ -29,6 +29,9 @@ def generalLogin(request):
 			if user and user.is_active:
 				login(request, user)
 				messages.success(request, u"Connexion réussie !")
+				c = Client.objects.get(pk = user.pk)
+				if c.is_gadz and not c.bucque:
+					messages.error(request, u"Pense à rajouter ta bucque dans les paramètres de ton compte !")
 				return None
 			elif user and not user.is_active:
 				messages.error(request, u"Votre compte est désactivé, contactez le support")

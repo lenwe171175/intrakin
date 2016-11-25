@@ -40,6 +40,8 @@ class Client(User):
 	has_rezal = models.BooleanField(default = False)
 	is_gadz = models.BooleanField(default = False)
 	is_conscrit = models.BooleanField(default = False)
+	is_debucquable = models.BooleanField(default = False)
+	credit = models.DecimalField(max_digits=5, decimal_places=2, default = 0, blank = True)
 
 	def save(self, *args, **kwargs):
 		super(Client, self).save(*args, **kwargs)

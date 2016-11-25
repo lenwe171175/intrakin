@@ -1,5 +1,5 @@
 {% load extra_filters %}
-<nav class = "ui inverted tiered menu">
+<nav class = "ui inverted tiered pointing menu">
 	<a class = "item link" href = "{% url "users.views.index" %}">
 		<i class = "home icon"></i>
 		Accueil
@@ -21,6 +21,9 @@
 		<i class = "book icon"></i>
 		Documentation
 	</a>	
+	{% if gadz.is_debucquable %}
+		{% include "navbar_kfet.html" %}
+	{% endif %}
 </nav>
 {% if messages %}
 	{% for msg in messages %}
