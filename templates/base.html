@@ -36,5 +36,14 @@
 					});
 				});
 		</script>
+		<script type = "text/javascript">
+			$('.ui.search').search({
+				apiSettings : {
+					url: '{% url "kfet.views.getPgs" %}?pg={query}'
+				},
+				debug: false,
+				verbose: true
+			})
+		</script>
 	</footer>
 </html>

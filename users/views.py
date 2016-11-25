@@ -96,7 +96,6 @@ def settings(request):
 
 
 def has_rezal_check(user):
-	#b = Client.objects.get(pk = user.pk, has_rezal = True)
 	b = Client.objects.filter(has_rezal = True)
 	c = Client.objects.get(pk = user.pk)
 	h = False

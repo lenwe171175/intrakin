@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui two column center aligned grid">
+	<div class = "column">
+	<div class = "ui segment">
+	<h3 class = "ui inverted blue block center header">Demander de l'argent</h3>
+	<form class = "ui form" action = "{% url "kfet.views.transactionpg" %}" method = "post">
+		{% csrf_token %}
+		<div class = "three field">
+			<div class = "field">
+				<label for = "id_source">Je demande de l'argent à...</label>
+				<div class = "ui item search">
+				<div class = "ui icon input">
+					<input name = "pg" class = "prompt" id = "id_source" type = "text" placeholder  = "Search ... (Alt+P)">
+					<i class = "search icon button"></i>
+				</div>
+				<div class = "results"></div>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_montant">Un montant de...</label>
+				<div class = "ui left labeled icon input">
+					<input name = "amount" id= "id_montant" type = "text">
+					<i class = "euro icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_description">Pour...</label>
+				<div class = "ui left labeled icon input">
+					<input name = "description" id = "id_description" type = "text">
+					<i class = "align justify icon"></i>
+				</div>
+			</div>
+		</div>
+	<button type = "submit" value = "Submit" class = "ui center blue submit button">Valider</button>
+	</form>
+	</div>
+	</div>
+	<div class = "column">
+	<div class = "ui segment">
+	<h3 class = "ui inverted blue block header">Transactions en cours</h3>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
