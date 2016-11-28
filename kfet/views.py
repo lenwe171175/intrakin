@@ -31,7 +31,7 @@ def getPgs(request):
 			tmp["results"].append({"title": i.nom + ' ' + i.prenom})
 	return HttpResponse(json.dumps(tmp), content_type = "text/javascript")
 
-def transactionpg(request):
+def addtrpg(request):
 	if request.method == 'POST':
 		form = transactionpgForm(request.POST)
 		if form.is_valid():
@@ -49,14 +49,41 @@ def transactionpg(request):
 			if src != trgt and amnt > 0:
 				vform.save()
 				messages.success(request, u"Demande effectuée")
-				return redirect("kfet.views.transactionpg")
+				return redirect("kfet.views.addtrpg")
 			else:
 				messages.error(request, u"Une erreur est survenue")
-				return redirect("kfet.views.transactionpg")
+				return redirect("kfet.views.addtrpg")
 		else:
 			messages.error(request, u"Une erreur est survenue")
-			return redirect("kfet.views.transactionpg")
+			return redirect("kfet.views.addtrpg")
 	else:
 		form=transactionpgForm()
-	return render(request, "kfet/transactionpg.html")
+	return render(request, "kfet/addtrpg.html")
 			
+def summarytrpg(request):
+	b = Client.objects.get(pk = request.user.pk)
+	listtrpgdone = transactionpg.objects.filter(Q(source = b) & Q(accepted = 0)).values_list('target','amount','description','date')
+	listtrpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0)).values_list('source','amount','description','date')
+	if request.method = 'POST':
+		form = strpgForm(request.POST)
+		if form.is_valid():
+			form = form.save(commit = False)
+			if b.credit >= form.amount:
+				form.accepted = 1
+				debitpg(b, form.amount)
+				creditpg(form.source, b)
+				form.save()
+				messages.success(request, u"Transaction effectuée")
+				return redirect("kfet.views.summarytrpg")
+			else:
+				messages.warning(request, u"Tu n'as pas assez d'argent !")
+				return redirect("kfet.views.summarytrpg")			
+		else:
+			messages.error(request, u"Une erreur est survenue")
+			return redirect("kfet.views.summarytrpg")
+	else:
+		formlist=[]
+		for i in listtrpgtodo:
+			formlist.append(strpgForm(instance=i))
+	return render(request, "kfet/strpg.html", {'formlist' : formlist, 'donelist' : listtrpgdone})
+		

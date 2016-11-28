@@ -74,6 +74,14 @@ class Client(User):
 	
 	def __unicode__(self):
 		return self.username
+		
+	def creditpg(self,x):
+		self.credit += x
+        self.save()
+		
+	def debitpg(self,x):
+		self.credit -= x
+		self.save()
 
 class device(models.Model):
 	nom = models.CharField(max_length = 64)

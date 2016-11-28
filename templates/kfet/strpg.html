@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load extra_filters %}
+
+{% block body %}
+<div class = "ui center align grid">
+	<div class = "two column">
+		<div class = "ui segment">
+		<h3 class = "ui inverted blue block center header">Je dois de l'argent à ...</h3>
+		{% if formlist==[] %}
+			Personne ! Je suis bel'eff
+		{% else %}
+			<table class = "ui celled padded table">
+			<thead>
+			<tr>
+				<th class = "center aligned single line">La demande est faite par...</th>
+				<th class = "center aligned single line">Date de la demande</th>
+				<th class = "center aligned single line">Montant</th>
+				<th class = "center aligned single line">Description</th>
+				<th class = "center aligned single line">Validation</th>
+			<tr>
+			</thead>
+			{% csrf_token %}			
+			{% for i in formlist %}
+			<form method="POST" action = "{% url "kfet.views.summarytrpg" %}">
+				<tr>
+					<td class = "center aligned single line">{{ form.source }}</td>
+					<td class = "center aligned single line">{{ form.date }}</td>
+					<td class = "center aligned single line">{{ form.amount }}</td>
+					<td class = "center aligned single line">{{ form.description }}</td>
+					<td class = "center aligned single line"><button class = "ui center blue submit button" type = "submit" value = "Submit">Accepter !</button></td>
+				</tr>
+			</form>
+			{% endfor %}
+			<p></p>
+			</table>
+		{% endif %}
+		</div>
+	</div>
+	<div class = "two column">
+		<div class = "ui segment">
+		<h3 class = "ui inverted blue block center header">J'ai demandé de l'argent à ...</h3>
+			{% if donelist==[] %}
+				Personne ! Pour en ajouter, clique <a href = "{% url "kfet.views.summarytrpg" %}">ici</a>
+			{% else %}
+			<table class = "ui celled padded table">
+			<thead>
+			<tr>
+				<th class = "center aligned single line">J'ai demandé à ...</th>
+				<th class = "center aligned single line">Date de la demande</th>
+				<th class = "center aligned single line">Montant</th>
+				<th class = "center aligned single line">Description</th>
+			<tr>
+			</thead>
+			{% for i in donelist %}
+				<tr>
+					{% for j in i %}
+						<td class = "center aligned single line">{{ j }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+			</table>
+		Pour en ajouter, clique <a href = "{% url "kfet.views.summarytrpg" %}">ici</a>
+		{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

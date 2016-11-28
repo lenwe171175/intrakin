@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class = "ui two column center aligned grid">
-	<div class = "column">
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
 	<div class = "ui segment">
 	<h3 class = "ui inverted blue block center header">Demander de l'argent</h3>
-	<form class = "ui form" action = "{% url "kfet.views.transactionpg" %}" method = "post">
+	<form class = "ui form" action = "{% url "kfet.views.addtrpg" %}" method = "post">
 		{% csrf_token %}
 		<div class = "three field">
 			<div class = "field">
@@ -35,11 +35,6 @@
 		</div>
 	<button type = "submit" value = "Submit" class = "ui center blue submit button">Valider</button>
 	</form>
-	</div>
-	</div>
-	<div class = "column">
-	<div class = "ui segment">
-	<h3 class = "ui inverted blue block header">Transactions en cours</h3>
 	</div>
 	</div>
 </div>
