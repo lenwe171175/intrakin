@@ -6,7 +6,7 @@
 	<div class = "heigth wide column">
 		<div class = "ui raised segment">
 		<h3 class = "ui inverted blue block center header">Je dois de l'argent ...</h3>
-		{% if formlist %}
+		{% if todolist %}
 			<table class = "ui celled table">
 			<thead>
 			<tr>
@@ -16,15 +16,17 @@
 				<th class = "center aligned single line">Validation</th>
 			<tr>
 			</thead>			
-			{% for i in formlist %}
+			{% for i in todolist %}
 			<form method="POST" action = "{% url "kfet.views.summarytrpg" %}">
 				{% csrf_token %}
 				<tr>
 					{% for j in i %}
-						<td><div class = "ui center aligned">{{ j }}</div></td>
+						<td class = "center aligned single line">{{ j }}</td>
 					{% endfor %}
-					<td class = "center aligned single line">
-<button class = "ui center blue submit button" type = "submit" value = "Submit">Accepter !</button></td>
+				<td class = "center aligned single line">
+<button class = "ui center blue submit button" type = "submit" name = "idnbr" value = "{{ forloop.counter0 }}">Accepter !</button></td>
+				</tr>
+					
 				</tr>
 			</form>
 			{% endfor %}

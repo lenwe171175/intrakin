@@ -64,9 +64,12 @@ def addtrpg(request):
 def summarytrpg(request):
 	b = Client.objects.get(pk = request.user.pk)
 	listtrpgdone = transactionpg.objects.filter(Q(source = b) & Q(accepted = 0)).values_list('target','amount','description','date')
-	listtrpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0))
+	listtrpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0)).values_list('source', 'amount', 'description')
 	if request.method == 'POST':
-		form = strpgForm(request.POST)
+		req = request.POST.__getitem__('idnbr')
+		trpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0))
+		formfilling = trpgtodo[int(req)]
+		form = strpgForm(instance=formfilling)
 		if form.is_valid():
 			form = form.save(commit = False)
 			if b.credit >= form.amount:
@@ -82,10 +85,6 @@ def summarytrpg(request):
 		else:
 			messages.error(request, u"Une erreur est survenue")
 			return redirect("kfet.views.summarytrpg")
-	else:
-		formlist=[]
-		for i in listtrpgtodo:
-			instance=i
-			formlist.append(strpgForm(instance=instance))
-	return render(request, "kfet/strpg.html", {'formlist' : formlist, 'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
+
+	return render(request, "kfet/strpg.html", {'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
 		

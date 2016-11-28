@@ -16,7 +16,4 @@ class strpgForm(forms.ModelForm):
 	class Meta:
 		model = transactionpg
 		fields = ['source', 'amount', 'description']
-		
-	def __init__(self, *args, **kwargs):
-		self.request = kwargs.pop('request', None)
-		super(strpgForm, self).__init__(*args, **kwargs)
+	
