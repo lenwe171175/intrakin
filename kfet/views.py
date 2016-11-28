@@ -6,12 +6,13 @@ from kfet.models import transactionpg
 from django.db.models import Q
 from django.core import exceptions
 from users.views import index
-from kfet.forms import VirtualtransactionpgForm, transactionpgForm
+from kfet.forms import VirtualtransactionpgForm, transactionpgForm, strpgForm
 from django.contrib import messages
 from kfet.models import transactionpg
 
 import json
 
+import pdb
 
 # Create your views here.
 
@@ -49,7 +50,7 @@ def addtrpg(request):
 			if src != trgt and amnt > 0:
 				vform.save()
 				messages.success(request, u"Demande effectuée")
-				return redirect("kfet.views.addtrpg")
+				return redirect("kfet.views.summarytrpg")
 			else:
 				messages.error(request, u"Une erreur est survenue")
 				return redirect("kfet.views.addtrpg")
@@ -63,16 +64,16 @@ def addtrpg(request):
 def summarytrpg(request):
 	b = Client.objects.get(pk = request.user.pk)
 	listtrpgdone = transactionpg.objects.filter(Q(source = b) & Q(accepted = 0)).values_list('target','amount','description','date')
-	listtrpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0)).values_list('source','amount','description','date')
-	if request.method = 'POST':
+	listtrpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0))
+	if request.method == 'POST':
 		form = strpgForm(request.POST)
 		if form.is_valid():
 			form = form.save(commit = False)
 			if b.credit >= form.amount:
 				form.accepted = 1
-				debitpg(b, form.amount)
-				creditpg(form.source, b)
 				form.save()
+				Client.debitpg(b, form.amount)
+				Client.creditpg(form.source, form.amount)
 				messages.success(request, u"Transaction effectuée")
 				return redirect("kfet.views.summarytrpg")
 			else:
@@ -84,6 +85,7 @@ def summarytrpg(request):
 	else:
 		formlist=[]
 		for i in listtrpgtodo:
-			formlist.append(strpgForm(instance=i))
-	return render(request, "kfet/strpg.html", {'formlist' : formlist, 'donelist' : listtrpgdone})
+			instance=i
+			formlist.append(strpgForm(instance=instance))
+	return render(request, "kfet/strpg.html", {'formlist' : formlist, 'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
 		
