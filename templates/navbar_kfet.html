@@ -2,13 +2,10 @@
 
 <div class = "ui sub menu">
 	<div class = "menu">
-		<!-- <div class = "item ui search">
-			<div class = "ui icon input">
-			<input name = "pg" class = "prompt" autofocus = "autofocus" type = "text" placeholder  = "Search ... (Alt+P)">
-			<i class = "search icon button"></i>
-			</div>
-		<div class = "results"></div>
-		</div> -->
+		<a class = "item link" href = "{% url "summarytrpg" %}">
+			<i class = "dollar icon"></i>
+			Transaction PG
+		</a>
 	{% if gadz.credit <= 0 %}
 		<div class = "right item">
 			<div class = "ui red label">

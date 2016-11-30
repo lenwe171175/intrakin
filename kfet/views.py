@@ -43,15 +43,17 @@ def addtrpg(request):
 			descrip = form.cleaned_data['description']
 			vform = VirtualtransactionpgForm()
 			vform = vform.save(commit=False)
-			vform.target=trgt
-			vform.source=src
+			vform.target=src
+			vform.source=trgt
 			vform.amount=amnt
 			vform.description=descrip
-			if src != trgt and amnt > 0:
+			if src != trgt and amnt > 0 and amnt <= trgt.credit:
 				vform.save()
 				messages.success(request, u"Demande effectuée")
 				return redirect("kfet.views.summarytrpg")
 			else:
+				if amnt > trgt.credit:
+					messages.warning(request,u"Tu n'as pas assez d'argent !")
 				messages.error(request, u"Une erreur est survenue")
 				return redirect("kfet.views.addtrpg")
 		else:
@@ -70,21 +72,16 @@ def summarytrpg(request):
 		trpgtodo = transactionpg.objects.filter(Q(target = b) & Q(accepted = 0))
 		formfilling = trpgtodo[int(req)]
 		form = strpgForm(instance=formfilling)
-		if form.is_valid():
-			form = form.save(commit = False)
-			if b.credit >= form.amount:
-				form.accepted = 1
-				form.save()
-				Client.debitpg(b, form.amount)
-				Client.creditpg(form.source, form.amount)
-				messages.success(request, u"Transaction effectuée")
-				return redirect("kfet.views.summarytrpg")
-			else:
-				messages.warning(request, u"Tu n'as pas assez d'argent !")
-				return redirect("kfet.views.summarytrpg")			
-		else:
-			messages.error(request, u"Une erreur est survenue")
+		form = form.save(commit = False)
+		if b.credit >= form.amount:
+			form.accepted = 1
+			form.save()
+			Client.debitpg(b, form.amount)
+			Client.creditpg(form.source, form.amount)
+			messages.success(request, u"Transaction effectuée")
 			return redirect("kfet.views.summarytrpg")
-
+		else:
+			messages.warning(request, u"Tu n'as pas assez d'argent !")
+			return redirect("kfet.views.summarytrpg")
 	return render(request, "kfet/strpg.html", {'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
 		
