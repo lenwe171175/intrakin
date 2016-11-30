@@ -6,8 +6,8 @@ from django.core import exceptions
 # Register your models here.
 
 class AdminClient(admin.ModelAdmin):
-	list_display = ('nom','prenom','chambre','phone','mail','is_active','has_rezal','is_conscrit','is_gadz','is_superuser')
-	list_filter = ('is_active','has_rezal','is_conscrit','is_gadz','is_superuser')
+	list_display = ('nom','prenom','chambre','phone','mail','is_active','has_rezal','is_conscrit','is_gadz','is_superuser','credit')
+	list_filter = ('is_active','has_rezal','is_conscrit','is_gadz','is_superuser','credit')
 	search_fields = ('nom','prenom','chambre')
 	actions = ['set_gadz', 'remove_gadz','set_rezal','remove_rezal','set_conscrit','remove_conscrit','set_actif','remove_actif','set_superuser','remove_superuser']
 

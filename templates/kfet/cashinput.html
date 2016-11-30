@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "ui segment">
+	<h3 class = "ui inverted blue block center header">Bucquer de l'argent à...</h3>
+	<form class = "ui form" action = "{% url "kfet.views.cashinput" %}" method = "post">
+		{% csrf_token %}
+		<div class = "three field">
+			<div class = "field">
+				<label for = "id_source">Je bucque de l'argent à...</label>
+				<div class = "ui item search">
+				<div class = "ui icon input">
+					<input name = "pg" class = "prompt" id = "id_source" type = "text" placeholder  = "Search ... (Alt+P)" autofocus>
+					<i class = "search icon button"></i>
+				</div>
+				<div class = "results"></div>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_montant">Un montant de...</label>
+				<div class = "ui left labeled icon input">
+					<input name = "amount" id = "id_montant" type = "text">
+					<i class = "euro icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_method">Avec...</label>
+				<div class = "ui selection dropdown">
+					<input type="hidden" name = "method">
+					<i class ="dropdown icon"></i>
+					<div class = "default text">Méthode</div>
+					<div class = "menu">
+						<div class = "item">CB</div>
+						<div class = "item">Espèces</div>
+						<div class = "item">Chèque</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<button type = "submit" value = "Submit" class = "ui center blue submit button">Valider</button>
+	</form>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
+					

@@ -3,7 +3,10 @@ from kfet.models import inputmethod, entity, product, transactionpg
 
 # Register your models here.
 
+class Admintransactionpg(admin.ModelAdmin):
+	list_display = ('source','target','amount','accepted')
+
 admin.site.register(inputmethod)
 admin.site.register(product)
 admin.site.register(entity)
-admin.site.register(transactionpg)
+admin.site.register(transactionpg, Admintransactionpg)

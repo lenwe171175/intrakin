@@ -2,17 +2,14 @@
 
 from django.shortcuts import render, redirect, HttpResponse
 from users.models import Client
-from kfet.models import transactionpg
+from kfet.models import transactionpg, inputmethod
 from django.db.models import Q
 from django.core import exceptions
 from users.views import index
-from kfet.forms import VirtualtransactionpgForm, transactionpgForm, strpgForm
+from kfet.forms import VirtualtransactionpgForm, transactionpgForm, strpgForm, cashinputForm, VirtualcashinputForm
 from django.contrib import messages
-from kfet.models import transactionpg
 
 import json
-
-import pdb
 
 # Create your views here.
 
@@ -84,4 +81,35 @@ def summarytrpg(request):
 			messages.warning(request, u"Tu n'as pas assez d'argent !")
 			return redirect("kfet.views.summarytrpg")
 	return render(request, "kfet/strpg.html", {'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
-		
+
+def cashinput(request):
+	if request.method == 'POST':
+		form = cashinputForm(request.POST)
+		print form
+		if form.is_valid():
+			authorci=Client.objects.get(pk = request.user.pk)
+			fcd=str(form.cleaned_data['pg']).lower().split(" ")
+			trgt = Client.objects.get(Q(nom__in=fcd) & Q(prenom__in=fcd))
+			amnt = form.cleaned_data['amount']
+			im=inputmethod.objects.get(name = form.cleaned_data['method'])
+			print im
+			vform = VirtualcashinputForm()
+			vform = vform.save(commit=False)
+			vform.authorci=authorci
+			vform.target=trgt
+			vform.amount=amnt
+			vform.method=im
+			if amnt > 0:
+				vform.save()
+				Client.creditpg(trgt,amnt)
+				messages.success(request, u"Ajout effectué !")
+				return redirect("kfet.views.cashinput")
+			else:
+				messages.warning(request, u"Le montant doit etre positif !")
+				return redirect("kfet.views.cashinput")
+		else:
+			messages.error(request, u"Une erreur est survenue")
+			return redirect("kfet.views.cashinput")
+	else:
+		form = cashinputForm()
+	return render(request, "kfet/cashinput.html", {'form' : form})
