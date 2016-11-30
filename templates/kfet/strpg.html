@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% load extra_filters %}
 
 {% block body %}
 <div class = "ui center aligned one column grid">
 	<div class = "heigth wide column">
 		<div class = "ui raised segment">
-		<h3 class = "ui inverted blue block center header">Je dois de l'argent ...</h3>
+		<h3 class = "ui inverted blue block center header">Je dois de l'argent à...</h3>
 		{% if todolist %}
 			<table class = "ui celled table">
 			<thead>
@@ -40,13 +40,13 @@
 	</div>
 	<div class = "two column">
 		<div class = "ui segment">
-		<h3 class = "ui inverted blue block center header">J'ai demande de l'argent ...</h3>
+		<h3 class = "ui inverted blue block center header">J'ai demandé de l'argent à...</h3>
 			{% if donelist %}
 				
 				<table class = "ui celled aligned padded table">
 				<thead>
 				<tr>
-					<th class = "center aligned single line">J'ai demande ...</th>
+					<th class = "center aligned single line">J'ai demandé à ...</th>
 					<th class = "center aligned single line">Montant</th>
 					<th class = "center aligned single line">Description</th>
 					<th class = "center aligned single line">Date de la demande</th>
