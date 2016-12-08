@@ -58,7 +58,7 @@ class product(models.Model):
 	shortcut=models.CharField(max_length=5)
 	instant=models.BooleanField(default=1)
 
-	def __unicode__(sefl):
+	def __unicode__(self):
 		return self.name
 
 class entity(models.Model):

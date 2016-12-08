@@ -45,5 +45,14 @@
 				verbose: true
 			})
 		</script>
+		<script type = "text/javascript">
+			$('.ui.search').search({
+				apiSettings : {
+					url: '{% url "kfet.views.getProducts" %}?prod={query}'
+				},
+				debug: false,
+				verbose: true
+			})
+		</script>
 	</footer>
 </html>

@@ -2,16 +2,25 @@
 
 from django.shortcuts import render, redirect, HttpResponse
 from users.models import Client
-from kfet.models import transactionpg, inputmethod
+from kfet.models import transactionpg, inputmethod, product, entity
 from django.db.models import Q
 from django.core import exceptions
 from users.views import index
 from kfet.forms import VirtualtransactionpgForm, transactionpgForm, strpgForm, cashinputForm, VirtualcashinputForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 import json
 
 # Create your views here.
+
+def is_debucquable_check(user):
+	c = Client.objects.get(pk = user.pk)
+	h = False
+	if c.is_debucquable:
+		h = True
+	return h
+	
 
 def getPgs(request):
 	data = []
@@ -29,6 +38,24 @@ def getPgs(request):
 			tmp["results"].append({"title": i.nom + ' ' + i.prenom})
 	return HttpResponse(json.dumps(tmp), content_type = "text/javascript")
 
+def getProducts(request):
+	data = []
+	grp = request.user.groups.all().values_list('name')
+	ent = entity.objects.filter(Q(name__in=grp))
+	try:
+		field = request.GET.get('prod', '')
+		data = product.objects.filter(((Q(name__icontains=field) & Q(associated_entity__in=ent)) | (Q(associated_entity__in=ent) & Q(shortcut__icontains=field))))
+	except (KeyError, exceptions.ObjectDoesNotExist, ValueError):
+		pass
+	tmp = {}
+	tmp["results"] = []
+	for i in data:
+		tmp["results"].append({"title": str(i.name + ' (' + i.shortcut + ')')})
+	return HttpResponse(json.dumps(tmp), content_type = "text/javascript")
+
+
+@login_required
+@user_passes_test(is_debucquable_check)
 def addtrpg(request):
 	if request.method == 'POST':
 		form = transactionpgForm(request.POST)
@@ -59,7 +86,9 @@ def addtrpg(request):
 	else:
 		form=transactionpgForm()
 	return render(request, "kfet/addtrpg.html")
-			
+	
+@login_required	
+@user_passes_test(is_debucquable_check)	
 def summarytrpg(request):
 	b = Client.objects.get(pk = request.user.pk)
 	listtrpgdone = transactionpg.objects.filter(Q(source = b) & Q(accepted = 0)).values_list('target','amount','description','date')
@@ -82,6 +111,7 @@ def summarytrpg(request):
 			return redirect("kfet.views.summarytrpg")
 	return render(request, "kfet/strpg.html", {'donelist' : listtrpgdone, 'todolist' : listtrpgtodo})
 
+@login_required
 def cashinput(request):
 	if request.method == 'POST':
 		form = cashinputForm(request.POST)

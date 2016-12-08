@@ -6,6 +6,19 @@
 			<i class = "money icon"></i>
 			Transaction PG
 		</a>
+	<!--<div class = "item ui search">
+		<div class = "ui icon input">
+			<input name = "prod" class = "prompt" type = "text">
+			<i class = "search icon button"></i>
+		</div>
+		<div class = "results"></div>
+	</div>-->
+		{% if request.user|has_group:"kfet" %}
+			<a class = "item link" href = "{% url "cashinput" %}">
+				<i class = "dollar icon"></i>
+				Ajout d'argent
+			</a>
+		{% endif %}
 	{% if gadz.credit <= 0 %}
 		<div class = "right item">
 			<div class = "ui red label">
