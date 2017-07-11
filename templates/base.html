@@ -1,9 +1,11 @@
 {% load staticfiles %}
+{% load static %}
 {% load extra_filters %}
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{% block title %}{{ title|set_title }}{% endblock %}</title>
+		<title>{% block title %}AM REZAL KIN{% endblock %}</title>
+		<link rel="shortcut icon" href="{%  static "/images/favicon.ico" %}">
 		<link rel = "stylesheet" href = "{% static "css/semantic.css" %}"/>
 	</head>
 
@@ -37,7 +39,7 @@
 				});
 		</script>
 		<script type = "text/javascript">
-			$('.ui.search').search({
+			$('.ui.search.pg').search( {
 				apiSettings : {
 					url: '{% url "kfet.views.getPgs" %}?pg={query}'
 				},
@@ -46,7 +48,7 @@
 			})
 		</script>
 		<script type = "text/javascript">
-			$('.ui.search').search({
+			$('.ui.search.prod').search({
 				apiSettings : {
 					url: '{% url "kfet.views.getProducts" %}?prod={query}'
 				},
@@ -54,5 +56,23 @@
 				verbose: true
 			})
 		</script>
+		
+		<script type = "text/javascript">
+			$('.mac.address').keyup(function (e) {
+				var r = /([a-f0-9]{2})/i;
+  				var str = e.target.value.replace(/[^a-f0-9:]/ig, "");
+  				if (e.keyCode != 8 && r.test(str.slice(-2))) {
+    				str = str.concat(':')
+  				}
+  				e.target.value = str.slice(0, 17);
+				});
+		</script>
+		
+		<script type = "text/javascript">
+			$('.ui.checkbox')
+  				.checkbox()
+			;
+		</script>
+	
 	</footer>
 </html>

@@ -2,30 +2,47 @@
 
 <div class = "ui sub menu">
 	<div class = "menu">
+		<a class = "item link" href = "{% url "histopg" %}">
+			<i class = "history icon"></i>
+			Historique
+		</a>
 		<a class = "item link" href = "{% url "summarytrpg" %}">
 			<i class = "money icon"></i>
 			Transaction PG
 		</a>
-	<!--<div class = "item ui search">
-		<div class = "ui icon input">
-			<input name = "prod" class = "prompt" type = "text">
-			<i class = "search icon button"></i>
-		</div>
-		<div class = "results"></div>
-	</div>-->
-		{% if request.user|has_group:"kfet" %}
+		{% if request.user|has_group:"can_add_money" %}
 			<a class = "item link" href = "{% url "cashinput" %}">
 				<i class = "dollar icon"></i>
 				Ajout d'argent
 			</a>
 		{% endif %}
-	{% if gadz.credit <= 0 %}
+		{% if request.user|has_group:"can_negats" %}
+			<a class = "item link" href = "{% url "seuilpg" %}">
+				<i class = "warning sign icon"></i>
+				PG sous un seuil
+			</a>
+		{% endif %}
+		{% if request.user|has_group:"can_create_product" %}
+			<a class = "item link" href = "{% url "bucquageboulc" %}">
+				<i class = "shop icon"></i>
+				Bucquer un produit
+			</a>
+			<a class = "item" href = "{% url "productdisplay" %}">
+				<i class = "list icon"></i>
+				Afficher les produits
+			</a>
+			<a class = "item" href = "{% url "productcreation" %}">
+				<i class = "cocktail icon"></i>
+				Créer un produit
+			</a>
+		{% endif %}
+		{% if gadz.credit <= 0 %}
 		<div class = "right item">
 			<div class = "ui red label">
 			Solde = {{ gadz.credit }} €
 			</div>
 		</div>
-	{% else %}
+		{% else %}
 		<div class = "right item">
 			<div class = "ui green label">
 			Solde = {{ gadz.credit }} €

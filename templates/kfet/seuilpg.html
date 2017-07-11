@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "row">
+	<div class = "ui segment">
+	<h3 class = "ui inverted blue block center header">PG en dessous d'un certains montant</h3>
+	<form class = "ui form" action = "{% url "kfet.views.seuilpg" %}" method = "post">
+		{% csrf_token %}
+		<div class = "two field">
+			<div class = "field">
+				<label for = "id_description">Je recherche les PG qui ont moins de...</label>
+				<div class = "ui left labeled icon input">
+					<input name = "seuil" id = "id_seuil" type = "text" placeholder = "Exemple : 5.3">
+					<i class = "euro icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_description">Appartenant aux prom's...</label>
+				<div class = "ui left labeled icon input">
+					<input name = "proms" id = "id_proms" type = "text" placeholder="EX : 214;216 ou ... pour toutes les prom's">
+					<i class = "student icon"></i>
+				</div>
+			</div>
+		</div>
+	<button type = "submit" value = "Submit" class = "ui center blue submit button">Valider</button>
+	</form>
+	</div>
+	</div>
+	{% if listmatch %}
+	<div class = "row">
+		<div class = "ui segment">
+		<h3 class = "ui inverted blue block center header">Les pauvres de prom'ss sont :</h3>
+				<table class = "ui celled aligned padded table">
+				<thead>
+				<tr>
+					<th class = "center aligned single line">Nom</th>
+					<th class = "center aligned single line">Prénom</th>
+					<th class = "center aligned single line">Prom's</th>
+					<th class = "center aligned single line">Solde</th>
+				<tr>
+				</thead>
+			{% for i in listmatch %}
+				<tr>
+					{% for j in i %}
+						<td class = "center aligned single line">{{ j }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	</div>
+</div>
+
+{% endblock %}

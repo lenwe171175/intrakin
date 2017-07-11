@@ -8,7 +8,15 @@
 		{% include "users/index_peks.html" %}
 	{% endif %}
 {% else %}
-<div class = "ui primary left floated segment">
-	<p>Veuillez vous connecter ou vous inscrire le cas échéant pour avoir plus de contenu disponible !</p>
+<div class = "ui two column center aligned grid">
+	<div class = "row">
+		<div class = "column">
+			<div class = "ui center aligned segment">
+				<p>Veuillez vous connecter ou vous inscrire le cas échéant pour avoir plus de contenu disponible !</p>
+				<p>En cas d'oubli de mot de passe, cliquez <a href = "{% url "password_reset" %}">ici</a>.</p>
+			</div>
+		</div>
+	</div>
+</div>
 {% endif %}
 {% endblock %}

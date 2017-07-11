@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load extra_filters %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">	
+	<div class = "row">
+	<div class = "column">
+		<div class = "ui segment">
+		<h3 class = "ui inverted blue block center header">Adresses MAC</h3>
+		{% if listmac %}
+			<table class = "ui celled table">
+			<thead>
+			<tr>
+				<th class = "center aligned single line">Demandeur</th>
+				<th class = "center aligned single line">Descriptif</th>
+				<th class = "center aligned single line">Adresse MAC</th>
+				<th class = "center aligned single line">Supprimer</th>
+			</tr>
+			</thead>			
+			{% for i in listmac %}
+			<form method="POST" action = "{% url "users.views.macdeletion" %}">
+				{% csrf_token %}
+				<tr>
+					{% for j in i %}
+						<td class = "center aligned single line">{{ j }}</td>
+					{% endfor %}
+				<td class = "center aligned single line">
+				<button class = "ui center red submit button" type = "submit" name = "mac_nbr" value = "{{ forloop.counter0 }}">Supprimer</button></td>
+				</tr>
+			</form>
+			{% endfor %}
+			<p></p>
+			</table>
+		{% else %}
+			<p></p>
+			Vide !
+		{% endif %}
+		</div>
+	</div></div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,10 +1,11 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% load extra_filters %}
 
 {% block body %}
-<div class = "ui center aligned one column grid">
-	<div class = "heigth wide column">
-		<div class = "ui raised segment">
+<div class = "ui two column center aligned grid">
+	<div class = "row">
+	<div class = "column">
+		<div class = "ui segment">
 		<h3 class = "ui inverted blue block center header">Je dois de l'argent à...</h3>
 		{% if todolist %}
 			<table class = "ui celled table">
@@ -24,7 +25,7 @@
 						<td class = "center aligned single line">{{ j }}</td>
 					{% endfor %}
 				<td class = "center aligned single line">
-<button class = "ui center blue submit button" type = "submit" name = "idnbr" value = "{{ forloop.counter0 }}">Accepter !</button></td>
+				<button class = "ui center blue submit button" type = "submit" name = "idnbr" value = "{{ forloop.counter0 }}">Accepter !</button></td>
 				</tr>
 					
 				</tr>
@@ -37,8 +38,9 @@
 			Personne ! Je suis bel'eff
 		{% endif %}
 		</div>
-	</div>
-	<div class = "two column">
+	</div></div>
+	<div class = "row">
+	<div class = "column">
 		<div class = "ui segment">
 		<h3 class = "ui inverted blue block center header">J'ai demandé de l'argent à...</h3>
 			{% if donelist %}
@@ -65,6 +67,7 @@
 				Personne ! Pour en ajouter, clique <a href = "{% url "kfet.views.addtrpg" %}">ici</a>
 			{% endif %}
 		</div>
+	</div>
 	</div>
 </div>
 {% endblock %}

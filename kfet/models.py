@@ -7,11 +7,13 @@ from users.models import Client
 # Create your models here.
 
 class transactionvp(models.Model):
+	authortvp=models.CharField(max_length=200, default="VP")
 	target=models.ForeignKey('users.Client', related_name='transactionvp_target')
 	date=models.DateTimeField(auto_now_add=True, auto_now=False)
 	product_price=models.DecimalField(max_digits=5, decimal_places=2)
 	product_name=models.CharField(max_length=200)
 	accepted=models.BooleanField(default=True)
+	entite=models.CharField(max_length=200, default='Kfet')
 
 	def __unicode__(self):
 		return self.product_name
@@ -23,6 +25,7 @@ class transactionboulc(models.Model):
 	product_price=models.DecimalField(max_digits=5, decimal_places=2)
 	product_name=models.CharField(max_length=200)
 	accepted=models.BooleanField(default=True)
+	entite=models.CharField(max_length=200, default='Kfet')
 
 	def __unicode__(self):
 		return self.product_name
@@ -55,7 +58,7 @@ class product(models.Model):
 	name=models.CharField(max_length=200)
 	price=models.DecimalField(max_digits=5, decimal_places=2)
 	associated_entity=models.ForeignKey('entity')
-	shortcut=models.CharField(max_length=5)
+	shortcut=models.CharField(max_length=5, unique=True)
 	instant=models.BooleanField(default=1)
 
 	def __unicode__(self):

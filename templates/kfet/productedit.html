@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "ui segment">
+		<form class = "ui form" method="POST" action = {% url 'productedit' id_product=instance %}>
+			<h2 class = "ui inverted blue block header">Modifier un produit</h2>
+			{% csrf_token %}
+			<div class = "field">
+				<label for = "name">Nom du produit</label>
+				<div class = "ui left labeled icon input">
+					{{ form.name }}
+					<i class = "tag icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "price">Prix</label>
+				<div class = "ui left labeled icon input">
+					{{ form.price }}
+					<i class = "euro icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "shortcut">Raccourci</label>
+				<div class = "ui left labeled icon input">
+					{{ form.shortcut }}
+					<i class = "keyboard icon"></i>
+				</div>
+			</div>
+			<p></p>
+			<button class = "ui center blue submit button" type = "submit" value = "Submit">Enregistrer</button>
+		</form>
+	</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load extra_filters %}
+
+{% block body %}
+
+<div class = "ui center aligned one column grid">
+	<div class = "height wide column">
+		<div class = "row">
+		<div class = "ui segment">
+		<h2 class = "ui inverted blue block header">MDT</h2>
+		<p>Permet d'activer la limitation de débit pour les utilisateurs dont la case is_conscrit est cochée</p>
+		<p>Pour désactiver la limitation de débit, cliquer sur le bouton désactiver</p>
+		<form class = "ui form" method="POST" action = "{% url "users.views.admincontrols" %}">
+			{% csrf_token %}
+			<div class = "field">
+				<label for = "limitation">Limitation</label>
+				<div class = "ui left labeled icon input">
+					<input type = "text" id = "limitation" name = "limitation">
+					<i class = "expand icon"></i>
+				</div>
+			</div>
+			<div class="ui buttons">
+				<button class="ui positive button" type = "submit" name = "apply_mdt" value = "Submit">Activer</button>
+			<div class="or"></div>
+				<button class="ui negative button" type = "submit" name = "off_mdt" value = "Submit">Désactiver</button>
+			</div>
+		</form>
+		</div>
+		</div>
+
+		<div class = "row">
+		<div class = "ui segment">
+		<h2 class = "ui inverted blue block header">Passage Gadz</h2>
+		<p>Permet d'activer les modules Gadz pour tous les conscrits</p>
+		<p>Cliquer sur le bouton ci-dessous : attention cette action est irréversible !</p>
+		<p>Nombre de sécurité : {{ numbercheck }}</p>
+		<form method="POST" action = "{% url "users.views.admincontrols" %}">
+		{% csrf_token %}
+		<div class = "field">
+			<div class = "ui labeled icon input">
+				<input type = "text" id = "verif" name = "numbercheck">
+				<i class = "protect icon"></i>
+			</div>
+		</div>
+		<p></p>
+		<button class="ui medium blue animated button" type = "submit" name = "gadz_pass" value = {{ numbercheck }}>
+			<div class="visible content">Validation</div>
+			<div class="hidden content">
+		    <i class="right arrow icon"></i>
+			</div>
+		</button>
+		</form>
+		</div></div>
+		
+		<div class = "row">
+		<div class = "ui segment">
+		<h2 class = "ui inverted blue block header">Renouvellement annuel</h2>
+		<p>Permet de désactiver le Rézal pour tous les utilisateurs</p>
+		<p>Cliquer sur le bouton ci-dessous : attention cette action est irréversible !</p>
+		<p>Nombre de sécurité : {{ numbercheck }}</p>
+		<form method="POST" action = "{% url "users.views.admincontrols" %}">
+		{% csrf_token %}
+		<div class = "field">
+			<div class = "ui left labeled icon input">
+				<input type = "text" id = "verif" name = "numbercheck">
+				<i class = "protect icon"></i>
+			</div>
+		</div>
+		<p></p>
+		<button class="ui medium red animated button" type = "submit" name = "renew_rezal" value = {{ numbercheck }}>
+			<div class="visible content">Validation</div>
+			<div class="hidden content">
+		    <i class="right arrow icon"></i>
+			</div>
+		</button>
+		</form>
+		</div></div>
+		
+	</div>
+</div>
+		
+{% endblock %}

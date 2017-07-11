@@ -2,8 +2,20 @@
 {% block navbar_links %}
 	{% if user.is_superuser %}
 		<a class = "item link" href = "/admin">
-			<i class = "lock icon"></i>
-			Administration
+			<i class = "configure icon"></i>
+			Admin Django
+		</a>
+		<a class = "item link" href = "{% url "admincontrols" %}">
+			<i class = "users icon"></i>
+			Outils admins
+		</a>
+		<a class = "item link" href = "{% url "macapprobation" %}">
+			<i class = "checkmark icon"></i>
+			Approbation MAC
+		</a>
+		<a class = "item link" href = "{% url "macdeletion" %}">
+			<i class = "trash outline icon"></i>
+			Suppression MAC
 		</a>
 	{% endif %}
 {% block navbar_gadz %}{% endblock %}

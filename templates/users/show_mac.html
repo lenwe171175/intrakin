@@ -6,11 +6,13 @@
 	<div class = "height wide column">
 	<div class = "ui raised compte segment">
 		<h2 class = "ui inverted blue block header">MAC(s) actuellement autorisée(s) pour l'utilisateur {{ user.username}}</h2>
+		{% if listmac %}
 		<table class = "ui celled padded table">
 			<thead>
 			<tr>
 				<th class = "center aligned single line">Nom de l'appareil</th>
 				<th class = "center aligned single line">Adresse MAC</th>
+				<th class = "center aligned single line">Statut</th>
 			<tr>
 			</thead>
 			{% for i in listmac %}
@@ -21,6 +23,10 @@
 				</tr>
 			{% endfor %}
 		</table>
+		{% else %}
+		<p></p>
+		Pas d'adresse enregistrée pour l'instant
+		{% endif %}
 	</div>
 	<div class = "ui raised compte segment">
 		Pour ajouter des appareils à ton compte, rends toi sur <a href = "{% url "addmac" %}">cette page</a>

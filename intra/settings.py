@@ -25,7 +25,7 @@ SECRET_KEY = 'mqy^#5g5ls-9-cgi&*!=f8%eawh@+q=o8q^^0-(=wg-4wa(q0l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.229']
+ALLOWED_HOSTS = ['172.20.0.160:8000']
 
 
 # Application definition
@@ -64,7 +64,7 @@ LOGIN_REDIRECT_URL = '/index/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/var/www/intra/templates/'],
+        'DIRS': ['/var/www/intrakin/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,15 +92,15 @@ DATABASES = {
     'default': {
 	'NAME': 'intra',
 	'ENGINE': 'django.db.backends.mysql',
-	'USER': 'root',
-	'PASSWORD': 'kikoobaba',
+	'USER': 'username',
+	'PASSWORD': 'mdp',
 	'HOST': '127.0.0.1',
     },
     'radcheck': {
 	'NAME': 'radius',
 	'ENGINE': 'django.db.backends.mysql',
-	'USER': 'root',
-	'PASSWORD': 'kikoobaba',
+	'USER': 'username',
+	'PASSWORD': 'mdp',
 	'HOST' : '127.0.0.1',
     }
 }
@@ -143,7 +143,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
+# https://docs.djangoproject.com/en/1.9/howto/static-files/S
 
 STATICFILES_FINDER = {
 	'django.contrib.staticfiles.finder.AppDirectoriesFinder',
@@ -152,5 +152,17 @@ STATICFILES_FINDER = {
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/intra/static/'
-STATICFILES_DIRS = ('/var/www/intra/collectedStaticFiles/',)
+STATIC_ROOT = '/var/www/intrakin/static/'
+STATICFILES_DIRS = ('/var/www/intrakin/collectedStaticFiles/',)
+
+#Mail server setup
+EMAIL_HOST = 'mail.rezal.fr'
+EMAIL_HOST_USER = 'support@rezal.fr'
+EMAIL_HOST_PASSWORD = 'mdp'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'support@rezal.fr'
+SERVER_EMAIL = 'root@mail.rezal.fr'
+
+#Grapelli setup
+GRAPPELLI_ADMIN_TITLE = 'AM REZAL KIN'

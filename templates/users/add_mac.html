@@ -6,12 +6,30 @@
 		<form class = "ui form primary segment" method="POST" action = "{% url "users.views.add_mac" %}">
 			<h2 class = "ui inverted blue block header">Ajouter un appareil</h2>
 			{% csrf_token %}
-			{{ form }}
+			<div class = "two fields">
+				<div class = "field">
+				<label for = "nom">Description</label>
+				<div class = "ui left labeled icon input">
+					{{ form.nom }}
+					<i class = "text icon"></i>
+				</div>
+				</div>
+				<div class = "field">
+				<label for = "nom">MAC</label>
+				<div class = "ui left labeled icon mac address input">
+					{{ form.mac }}
+					<i class = "desktop icon"></i>
+				</div>
+				</div>
+			</div>
 			<p></p>
 			<button class = "ui center blue submit button" type = "submit" value = "Submit">Enregistrer</button>
 		</form>
 		<div class = "ui raised segment">
-			L'adresse MAC doit avoir le format suivant : 0a-1b-2c-3d-4e-5f <br>PAS DE MAJUSCULE et un tiret tous les deux caractères !
+			L'adresse MAC doit avoir le format suivant : 0a:1b:2c:3d:4e:5f <br>PAS DE MAJUSCULE et un ":" tous les deux caractères !
+		</div>
+		<div class = "ui raised segment">
+			Attention, en ajoutant une adresse MAC à votre compte, vous devenez responsable de l'activité associée : téléchargement illégaux, etc.
 		</div>
 	</div>
 </div>

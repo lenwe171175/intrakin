@@ -6,10 +6,10 @@ from django.core import exceptions
 # Register your models here.
 
 class AdminClient(admin.ModelAdmin):
-	list_display = ('nom','prenom','chambre','phone','mail','is_active','has_rezal','is_conscrit','is_gadz','is_superuser','credit')
-	list_filter = ('is_active','has_rezal','is_conscrit','is_gadz','is_superuser','credit')
+	list_display = ('nom','prenom','chambre','phone','mail','is_active','has_rezal','is_gadz','is_conscrit','is_superuser','credit')
+	list_filter = ('is_active','has_rezal','is_gadz','is_conscrit','is_superuser','credit')
 	search_fields = ('nom','prenom','chambre')
-	actions = ['set_gadz', 'remove_gadz','set_rezal','remove_rezal','set_conscrit','remove_conscrit','set_actif','remove_actif','set_superuser','remove_superuser']
+	actions = ['set_rezal','remove_rezal','set_gadz', 'remove_gadz','set_actif','remove_actif','set_superuser','remove_superuser']
 
 	def set_gadz(self, request, queryset):
 		queryset.update(is_gadz = True)
@@ -26,16 +26,14 @@ class AdminClient(admin.ModelAdmin):
 	def remove_actif(self, request, queryset):
 		queryset.update(is_active = False)
 		queryset.update(has_rezal = False)
-		queryset.update(is_conscrit = False)
 		for b in queryset:
 			a = device.objects.filter(publisher = b.pk)
 			for i in a:
 				try:
 					tmp = radcheck.objects.filter(username = i.mac)
 					tmp.all().delete()
-					tmp = radreply.objects.filter(username = i.mac)
-					tmp.all().delete()
-					i.delete()
+					i.activated = False
+					i.save()
 				except (exceptions.ObjectDoesNotExist):
 					return
 	remove_actif.short_description = u"Désactiver les utilisateurs sélectionnés"
@@ -46,16 +44,14 @@ class AdminClient(admin.ModelAdmin):
 
 	def remove_rezal(self, request, queryset):
 		queryset.update(has_rezal = False)
-		queryset.update(is_conscrit = False)
 		for b in queryset:
 			a = device.objects.filter(publisher = b.pk)
 			for i in a:
 				try:
 					tmp = radcheck.objects.filter(username = i.mac)
 					tmp.all().delete()
-					tmp = radreply.objects.filter(username = i.mac)
-					tmp.all().delete()
-					i.delete()
+					i.activated = False
+					i.save()
 				except (exceptions.ObjectDoesNotExist):
 					return
 	remove_rezal.short_description = u"Désactiver le Rézal pour les utilisateurs sélectionnés"
@@ -70,31 +66,8 @@ class AdminClient(admin.ModelAdmin):
 		queryset.update(is_staff = False)
 	remove_superuser.short_description = u"Retirer les droits d'admin à l'utilisateur sélectionné"
 
-	def set_conscrit(self, request, queryset):
-		queryset.update(is_conscrit = True)
-		for b in queryset:
-			a = device.objects.filter(publisher = b.pk)
-			for i in a :
-				try:
-					tmp, created = radreply.objects.get_or_create(username = i.mac)
-				except (exceptions.ObjectDoesNotExist):
-					return
-	set_conscrit.short_description = u"Limiter la bande passante des utilisateurs sélectionnés"
-
-	def remove_conscrit(self, request, queryset):
-		queryset.update(is_conscrit = False)
-		for b in queryset:
-			a = device.objects.filter(publisher = b.pk)
-			for i in a:
-				try:
-					tmp = radreply.objects.filter(username = i.mac)
-					tmp.all().delete()
-				except (exceptions.ObjectDoesNotExist):
-					return
-	remove_conscrit.short_description = u"Enlever la limitation de bandwidth des utilisateurs sélectionnés"
-
 class Admindevice(admin.ModelAdmin):
-	list_display = ('nom','mac','publisher')
+	list_display = ('nom','mac','publisher','accepted','activated')
 
 admin.site.register(Client,AdminClient)
 admin.site.register(device,Admindevice)

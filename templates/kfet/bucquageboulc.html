@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "ui segment">
+	<h3 class = "ui inverted blue block center header">Bucquer un produit à...</h3>
+	<form class = "ui form" action = "{% url "kfet.views.bucquageboulc" %}" method = "post">
+		{% csrf_token %}
+		<div class = "three field">
+			<div class = "field">
+				<label for = "pg">Je bucque un produit à...</label>
+				<div class = "ui item search pg">
+				<div class = "ui icon input">
+					<input name = "pg" class = "prompt" id = "pg" type = "text" placeholder  = "Search ... (Alt+P)" autofocus>
+					<i class = "search icon button"></i>
+				</div>
+				<div class = "results"></div>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "id_montant">Le produit ...</label>
+				<div class = "ui item search prod">
+				<div class = "ui icon input">
+					<input name = "prod" class = "prompt" id = "pg" type = "text" placeholder  = "Search ... (Alt+P)" autofocus>
+					<i class = "search icon button"></i>
+				</div>
+				<div class = "results"></div>
+				</div>
+			</div>
+		</div>
+		<button type = "submit" value = "Submit" class = "ui center blue submit button">Valider</button>
+	</form>
+	</div>
+	</div>
+</div>
+
+{% endblock %}

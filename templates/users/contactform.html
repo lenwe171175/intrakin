@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class = "ui center aligned one column grid">
+	<div class = "height wide column">
+		<form class = "ui form primary segment" method="POST" action = "{% url "users.views.contactform" %}">
+			<h2 class = "ui inverted blue block header">Formulaire de contact</h2>
+			{% csrf_token %}
+			
+				<div class = "field">
+				<label for = "mail">Mail</label>
+				<div class = "ui left labeled icon input">
+					{{ form.mail }}
+					<i class = "at icon"></i>
+				</div>
+				</div>
+				<div class = "field">
+				<label for = "nom">Objet</label>
+				<div class = "ui left labeled icon input">
+					{{ form.subject }}
+					<i class = "comment outline icon"></i>
+				</div>
+				</div>
+				<div class = "field">
+				<label for = "nom">Votre message</label>
+				<div class = "ui left labeled icon input">
+					{{ form.body }}
+					<i class = "write icon"></i>
+				</div>
+				</div>
+			
+			<p></p>
+			<button class = "ui center blue submit button" type = "submit" value = "Submit">Envoyer</button>
+		</form>
+		
+	</div>
+</div>
+{% endblock %}

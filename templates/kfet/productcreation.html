@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load extra_filters %}
+
+{% block body %}
+<div class = "ui center aligned grid">
+	<div class = "height wide column">
+	<div class = "ui segment">
+		<form class = "ui form" method="POST" action = "{% url "kfet.views.productcreation" %}">
+			<h2 class = "ui inverted blue block header">Ajouter un produit</h2>
+			{% csrf_token %}
+			<div class = "field">
+				<label for = "name">Nom du produit</label>
+				<div class = "ui left labeled icon input">
+					<input name = "name" id = "name" type = "text">
+					<i class = "tag icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "price">Prix</label>
+				<div class = "ui left labeled icon input">
+					<input name = "price" id = "price" type = "text" placeholder = "Exemple : 5.3">
+					<i class = "euro icon"></i>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "entity">Magasin Associé</label>
+				<div class = "ui selection dropdown">
+					<input name = "entity" id = "entity" type = "hidden">
+					<i class ="dropdown icon"></i>
+					<div class = "default text">Magasin</div>
+				    <div class = "menu">
+				    	{% if request.user|has_group:"kfet" %}
+						<div class = "item">Kfet</div>
+						{% endif %}
+						{% if request.user|has_group:"cvis" %}
+						<div class = "item">Cvis</div>
+						{% endif %}
+						{% if request.user|has_group:"kve" %}
+						<div class = "item">Kve</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class = "field">
+				<label for = "shortcut">Raccourci</label>
+				<div class = "ui left labeled icon input">
+					<input name = "shortcut" id = "shortcut" type = "text">
+					<i class = "keyboard icon"></i>
+				</div>
+			</div>
+			<p></p>
+			<button class = "ui center blue submit button" type = "submit" value = "Submit">Enregistrer</button>
+		</form>
+	</div>
+	</div>
+</div>
+
+{% endblock %}

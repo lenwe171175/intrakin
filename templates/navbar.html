@@ -16,11 +16,26 @@
 		<i class = "sign in icon"></i>
 		Connexion
 	</a>
+	<a class = "item link" href = "{% url "password_reset" %}">
+		<i class = "unlock icon"></i>
+		Mot de passe oublié ?
+	</a>
 	{% endblock %}
 	<a class = "item link" href = "http://confluence.rezal.fr">
 		<i class = "book icon"></i>
 		Documentation
-	</a>	
+	</a>
+	
+	<a class = "item link" href = "{% url "users.views.contactform" %}">
+		<i class = "help icon"></i>
+		Formulaire de contact
+	</a>
+	
+	<a class = "item link" href = "{% url "users.views.about" %}">
+		<i class = "inverted info circle icon"></i>
+		A propos
+	</a>
+	
 	{% if gadz.is_debucquable %}
 		{% include "navbar_kfet.html" %}
 	{% endif %}

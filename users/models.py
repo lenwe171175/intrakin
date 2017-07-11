@@ -21,9 +21,9 @@ class   radreply(models.Model):
 
 class   radcheck(models.Model):
 	username = models.CharField(max_length = 17)
-	attribute = models.CharField(max_length = 64, default = 'Auth-Type')
+	attribute = models.CharField(max_length = 64, default = 'ClearText-Password')
 	op = models.CharField(max_length = 2, default = ':=')
-	value = models.CharField(max_length = 64, default = 'Accept')
+	value = models.CharField(max_length = 64, default = 'authok')
 
 	class Meta:
 		db_table = 'radcheck'
@@ -49,28 +49,8 @@ class Client(User):
 		if b != []:
 			if not self.has_rezal:
 				for i in b:
-					try:
-						tmp = radcheck.objects.filter(username = i.mac)
-						tmp.all().delete()
-						tmp = radreply.objects.filter(username = i.mac)
-						tmp.all().delete()
-						i.delete()
-					except (exceptions.ObjectDoesNotExist):
-						return
-		if not self.is_conscrit:
-			for i in b:
-				try:
-					tmp = radreply.objects.filter(username = i.mac)
-					tmp.all().delete()
-				except (exceptions.ObjectDoesNotExist):
-					return
-
-		if self.is_conscrit:
-			for i in b:
-				try:
-					tmp, created = radreply.objects.get_or_create(username = i.mac)
-				except (exceptions.ObjectDoesNotExist):
-					return
+					i.activated = False
+					i.save()
 	
 	def __unicode__(self):
 		return self.username
@@ -87,17 +67,26 @@ class device(models.Model):
 	nom = models.CharField(max_length = 64)
 	mac = models.CharField(max_length = 17)
 	publisher = models.ForeignKey('Client')
-
+	accepted = models.BooleanField(default = False)
+	activated = models.BooleanField(default = True)
+	
 	def save(self, *args, **kwargs):
 		super(device, self).save(*args, **kwargs)
 		b = Client.objects.get(pk = self.publisher.pk)
-		if b.has_rezal:
-			tmp, created = radcheck.objects.get_or_create(username = self.mac, attribute = "Auth-Type", op = ":=", value = "Accept")
+		
+		if b.has_rezal and self.accepted == True and self.activated == True:
+			tmp, created = radcheck.objects.get_or_create(username = self.mac, attribute = "ClearText-Password", op = ":=", value = "authok")
 		else:
 			try:
 				tmp = radcheck.objects.filter(username = self.mac)
 				tmp.all().delete()
+				tmp = radreply.objects.filter(username = self.mac)
+				tmp.all().delete()
 			except (exceptions.ObjectDoesNotExist, exceptions.MultipleObjectsReturned):
 				return
-		if b.is_conscrit:
-			tmp, created = radreply.objects.get_or_create(username = self.mac)
+			
+	def mdt_on(self, x):
+		b = Client.objects.get(pk = self.publisher.pk)
+		if b.has_rezal and self.accepted == True and self.activated == True and b.is_conscrit:
+			tmp, created = radreply.objects.get_or_create(username = self.mac, attribute = "WISPr-Bandwidth-Max-Down", op = "=", value = x)
+			tmp, created = radreply.objects.get_or_create(username = self.mac, attribute = "WISPr-Bandwidth-Max-Up", op = "=", value = int(x)//2)

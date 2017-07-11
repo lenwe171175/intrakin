@@ -5,14 +5,14 @@
 	<div class = "height wide column">
 	<div class = "ui segment">
 	<h3 class = "ui inverted blue block center header">Bucquer de l'argent à...</h3>
-	<form class = "ui form" action = "{% url "kfet.views.cashinput" %}" method = "post">
+	<form class = "ui form" action = "{% url "kfet.views.cashinputview" %}" method = "post">
 		{% csrf_token %}
 		<div class = "three field">
 			<div class = "field">
-				<label for = "id_source">Je bucque de l'argent à...</label>
-				<div class = "ui item search">
+				<label for = "pg">Je bucque de l'argent à...</label>
+				<div class = "ui item search pg">
 				<div class = "ui icon input">
-					<input name = "pg" class = "prompt" id = "id_source" type = "text" placeholder  = "Search ... (Alt+P)" autofocus>
+					<input name = "pg" class = "prompt" id = "pg" type = "text" placeholder  = "Search ... (Alt+P)" autofocus>
 					<i class = "search icon button"></i>
 				</div>
 				<div class = "results"></div>
@@ -21,7 +21,7 @@
 			<div class = "field">
 				<label for = "id_montant">Un montant de...</label>
 				<div class = "ui left labeled icon input">
-					<input name = "amount" id = "id_montant" type = "text">
+					<input name = "amount" id = "id_montant" type = "text" placeholder = "Exemple : 5.3">
 					<i class = "euro icon"></i>
 				</div>
 			</div>

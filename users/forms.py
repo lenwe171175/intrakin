@@ -57,8 +57,17 @@ class GadzEditForm(forms.ModelForm):
 class MacForm(forms.ModelForm):
 	class Meta:
 		model = device
-		exclude = ["publisher"]
+		exclude = ["publisher", "accepted", "activated"]
+		
+class ContactForm(forms.Form):
+	mail = forms.EmailField()
+	subject = forms.CharField()
+	body = forms.CharField(widget=forms.Textarea)
 	
-	#def __init__(self, user, *args, **kwargs):
-	#	self.publisher = user
-	#	super(MacForm, self).__init__(*args, **kwargs)
+	
+class mdtForm(forms.Form):
+	limitation = forms.CharField()
+	
+class checkForm(forms.Form):
+	numbercheck = forms.DecimalField()
+	
