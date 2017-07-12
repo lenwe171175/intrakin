@@ -181,10 +181,10 @@ def macapprobation(request):
 @login_required
 @staff_member_required
 def macdeletion(request):
-	list_to_delete = device.objects.filter(Q(accepted = True) & Q(activated = True)).values_list('publisher__nom','nom','mac')
+	list_to_delete = device.objects.filter(Q(accepted = True) & Q(activated = True)).order_by('pk').values_list('publisher__nom','nom','mac')
 	if request.method == 'POST':
 		req_nbr = request.POST.__getitem__('mac_nbr')
-		instance_to_pass = device.objects.filter(Q(accepted = True) & Q(activated = True))[int(req_nbr)]
+		instance_to_pass = device.objects.filter(Q(accepted = True) & Q(activated = True)).order_by('pk')[int(req_nbr)]
 		if getattr(instance_to_pass, 'mac') == list_to_delete[int(req_nbr)][2]:
 			instance_to_pass.activated = False
 			instance_to_pass.save()
