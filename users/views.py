@@ -157,18 +157,18 @@ def show_mac(request):
 @login_required
 @staff_member_required
 def macapprobation(request):
-	list_to_approve = device.objects.filter(Q(accepted = False) & Q(activated = True)).values_list('publisher__nom','nom','mac')
+	list_to_approve = device.objects.filter(Q(accepted = False) & Q(activated = True)).order_by('pk').values_list('publisher__nom','nom','mac')
 	if request.method == 'POST':
 		if request.POST.__contains__('accept_mac'):
 			req_nbr = request.POST.__getitem__('accept_mac')
-			instance_to_pass = device.objects.filter(Q(accepted = False) & Q(activated = True))[int(req_nbr)]
+			instance_to_pass = device.objects.filter(Q(accepted = False) & Q(activated = True)).order_by('pk')[int(req_nbr)]
 			instance_to_pass.accepted = True
 			instance_to_pass.save()
 			messages.success(request, u"Adresse MAC acceptée")
 			return redirect("users.views.macapprobation")
 		elif request.POST.__contains__('delete_mac'):
 			req_nbr = request.POST.__getitem__('delete_mac')
-			instance_to_pass = device.objects.filter(Q(accepted = False) & Q(activated = True))[int(req_nbr)]
+			instance_to_pass = device.objects.filter(Q(accepted = False) & Q(activated = True)).order_by('pk')[int(req_nbr)]
 			if getattr(instance_to_pass, 'mac') == list_to_approve[int(req_nbr)][2]:
 				instance_to_pass.delete()
 				messages.success(request, u"Adresse MAC refusée")
